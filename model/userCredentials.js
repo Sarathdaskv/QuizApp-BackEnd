@@ -1,0 +1,25 @@
+const mongoose = require('mongoose')
+
+const userCredentials = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  score: {
+    type: Number,
+    default: 0
+  }
+}
+)
+
+const users =new mongoose.model('users', userCredentials);
+
+module.exports = users;
