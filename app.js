@@ -16,7 +16,9 @@ app.use(express.urlencoded({extended:true}));
 const PORT=process.env.PORT||8080;
 app.use(morgan('tiny')); 
 
+app.use('/admin',require('./routes/adminRouter'))
 app.use('/',require('./routes/userRouter'))
+
 
 app.listen(PORT,()=>{
     console.log(` Server listening at ${PORT}`);

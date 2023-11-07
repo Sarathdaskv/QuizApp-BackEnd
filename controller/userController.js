@@ -19,7 +19,8 @@ const userLogin = async (req, res) => {
     try {
 
         const checkUser = await userModel.findOne({ email: req.body.email });
-        if (!checkUser) {
+        if (checkUser==null) {
+            console.log("hello");
             return res.json({
                 message: 'email does not exist'
             })
@@ -30,7 +31,8 @@ const userLogin = async (req, res) => {
                 { expiresIn: '1h' })
             return res.status(200).json({
                 userData:checkUser,
-                token: token
+                token: token,
+                expiresIn:"3600"
             })
         }
         else {
