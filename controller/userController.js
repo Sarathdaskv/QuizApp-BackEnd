@@ -20,7 +20,6 @@ const userLogin = async (req, res) => {
 
         const checkUser = await userModel.findOne({ email: req.body.email });
         if (checkUser==null) {
-            console.log("hello");
             return res.json({
                 message: 'email does not exist'
             })
