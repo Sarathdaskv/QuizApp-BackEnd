@@ -53,24 +53,43 @@ const adminLogin = async (req, res) => {
     }
 }
 
-const addQuestion = async (req, res)=> {
+const addQuestion = async (req, res) => {
     try {
-        console.log("fre",req.body);
-        const questionData=req.body;
-        console.log(questionData);
-        const data=questionModel.insertOne(questionData)
-        if(!data){
-           return res.json({
+        const questionData = req.body;
+        const data = new questionModel(questionData);
+        await data.save(); 
+        if (!data) {
+            return res.json({
                 message: 'something went wrong'
-            })
+            });
+        } else {
+            return res.send(data); 
         }
-        res.json(question)
-    }
-    catch (err) {
+    } catch (err) {
+       
         res.json({
             message: err
-        })
+        });
+    }
+};
+
+const getAllQuestions=async(req,res)=>{
+    try{
+        const questions=await questionModel.find();
+        if(!questions){
+            return res.json({
+                message: 'something went wrong'
+            });
+        }
+        return res.json(questions)
+    }
+    catch(err){
+        res.json({
+            message: err
+        });
     }
 }
 
-module.exports = { getAdminLogin, adminLogin, addQuestion }
+
+
+module.exports = { getAdminLogin, adminLogin, addQuestion ,getAllQuestions}

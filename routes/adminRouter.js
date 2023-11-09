@@ -16,4 +16,9 @@ router
 .route('/question')
 .post(adminController.addQuestion)
 
+
+router
+.route('/:adminId/question')
+.get(adminController.getAllQuestions)
+
 module.exports=router;

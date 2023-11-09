@@ -5,8 +5,20 @@ const questionData=mongoose.Schema({
         type:String,
         require:true
     },
-    options: {
-        type: Array,
+    option1: {
+        type: String,
+        required: true
+      },
+      option2: {
+        type: String,
+        required: true
+      },
+      option3: {
+        type: String,
+        required: true
+      },
+      option4: {
+        type: String,
         required: true
       },
       correctAnswer: {
