@@ -30,6 +30,7 @@ const adminLogin = async (req, res) => {
                 message: 'email does not exist'
             })
         }
+       
         if (adminUser.password === req.body.password) {
             const token = jwt.sign({ email: adminUser.email, adminId: adminUser._id },
                 process.env.JWT_SECRET_KEY,

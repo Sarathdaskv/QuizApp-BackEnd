@@ -15,4 +15,7 @@ router
 .route('/login')
 .post(userController.userLogin)
 
+router
+.route('/questions')
+.get(userController.getRandomQuestions)
 module.exports=router

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const userModel = require('../model/userCredentials.js');
+const questionModel=require('../model/question')
 const { token } = require('morgan');
 const { default: mongoose } = require('mongoose');
 
@@ -19,7 +20,7 @@ const userLogin = async (req, res) => {
     try {
 
         const checkUser = await userModel.findOne({ email: req.body.email });
-        if (checkUser==null) {
+        if (checkUser == null) {
             return res.json({
                 message: 'email does not exist'
             })
@@ -29,9 +30,9 @@ const userLogin = async (req, res) => {
                 process.env.JWT_SECRET_KEY,
                 { expiresIn: '1h' })
             return res.status(200).json({
-                userData:checkUser,
+                userData: checkUser,
                 token: token,
-                expiresIn:"3600"
+                expiresIn: "3600"
             })
         }
         else {
@@ -45,22 +46,38 @@ const userLogin = async (req, res) => {
     }
 }
 
-const getUser=async(req,res)=>{
-    try{
-        const userId=new mongoose.Types.ObjectId(req.params.userId) 
-        const user=await userModel.findById(userId)
-        if(!user){
+const getUser = async (req, res) => {
+    try {
+        const userId = new mongoose.Types.ObjectId(req.params.userId)
+        const user = await userModel.findById(userId)
+        if (!user) {
             return res.json({
-                message:'user not found'
+                message: 'user not found'
             })
         }
         res.json(user)
     }
-    catch(err){
+    catch (err) {
         res.json({
-            message:'user not found'
+            message: 'user not found'
         })
     }
 }
 
-module.exports = { getUsers, userLogin,getUser }
+const getRandomQuestions = async (req, res) => {
+    try {
+        const questions=await questionModel.aggregate([{$sample: {size: 10}}]);
+        if(!questions){
+            return res.json({
+                message: 'no questions found'
+            })
+        }
+        res.json(questions);
+    }
+    catch (err) {
+        res.json({
+            message: 'something went wrong'
+        })
+    }
+}
+module.exports = { getUsers, userLogin, getUser, getRandomQuestions }
